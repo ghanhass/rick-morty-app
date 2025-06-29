@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './app/dashboard/dashboard.component';
+import { HomeComponent } from './app/home/home.component';
+import { CharactersListComponent } from './app/characters-list/characters-list.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -8,11 +9,16 @@ export const APP_ROUTES: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'dashboard',
+        redirectTo: 'home',
       },
       {
-        path: 'dashboard',
-        component: DashboardComponent,
+        path: 'home',
+        component: HomeComponent,
+        //canActivate: [AuthGuardService],
+      },
+      {
+        path: 'characters-list',
+        component: CharactersListComponent,
         //canActivate: [AuthGuardService],
       }
     ],
@@ -20,10 +26,10 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/dashboard',
+    redirectTo: '/home',
   },
   {
     path: '**',
-    redirectTo: '/dashboard',
+    redirectTo: '/home',
   },
 ];

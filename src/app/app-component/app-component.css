@@ -1,0 +1,143 @@
+.rick-logo svg{
+    fill: #4d4d4d;
+}
+
+a {
+    cursor: pointer;
+    color: rgb(51, 51, 51);
+    text-decoration: none;
+}
+
+.rick-logo {
+    display: flex;
+}
+
+nav{
+    display:flex;
+    align-items: center;
+
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    box-shadow: 0px 0px 3px 1px gray;
+    background-color: #FFFFFF;
+}
+
+nav .left-corner {
+    margin-left: 5px;
+}
+
+nav .middle-area {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    gap:10%;
+}
+
+nav .right-corner {
+    margin-right: 5px;
+}
+/*************************/
+nav a.hamburger-btn,
+nav a.hamburger-btn::before,
+nav a.hamburger-btn::after{
+    transition:0.5s;
+}
+
+nav a.hamburger-btn {
+    cursor: pointer;
+    position:relative;
+    width: 30px;
+    border-top: 3px solid gray;
+    border-bottom: 3px solid gray;
+    height: 15px;
+    align-items: center;
+    /****/
+    display:none;
+}
+
+nav a.hamburger-btn::after,
+nav a.hamburger-btn::before
+{
+    content: "";
+    width: 100%;
+    border-bottom: 3px solid gray;
+    height: 0px;   
+    position:absolute;
+}
+
+nav a.hamburger-btn.x-mode{
+    border-color: transparent;
+}
+
+nav a.hamburger-btn.x-mode::after {
+    transform: rotate(45deg);
+    position: absolute;
+}
+
+aside#sidebar {
+    position: fixed;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    top: 54px;
+    background-color: #FFFFFF;
+    box-shadow: -4px -4px 0px 4px white, 0px 0px 3px 1px gray;
+    /*********/
+    line-height: 1.1;
+    padding: 15px 5px;
+    /*********/
+    transform:translateX(calc(-100% - 4px));
+    transition:0.5s;
+}
+
+aside#sidebar section:first-child ~ section {
+    margin-top: 35px;
+}
+
+aside#sidebar.is-sidebar-open{
+    transform:translateX(0px);
+}
+
+
+nav .middle-area a{
+    padding:5px;
+    font-size: 1.2rem;
+}
+
+nav .middle-area a,
+aside#sidebar a{
+        font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: 800;
+    text-rendering: optimizeLegibility;
+}
+
+aside#sidebar a{
+    font-size: 1.31951rem;
+}
+
+@media (max-width:747px){
+    nav a.hamburger-btn{
+        display:flex;
+    }
+
+    nav a.hamburger-btn.x-mode::before {
+        transform: rotate(-45deg); 
+    }
+
+    nav .middle-area a{
+        display: none;
+    }
+}
+
+@media (min-width:748px){
+    nav a.hamburger-btn{
+        display:none;
+    }
+
+    aside#sidebar{
+        display:none
+    }
+}
