@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './app/home/home.component';
-import { CharactersListComponent } from './app/characters-list/characters-list.component';
+import { CharactersListComponent } from './app/components/character/characters-list/character-list.component';
+import { LocationListComponent } from './app/components/location/location-list/location-list.component';
+import { EpisodeListComponent } from './app/components/episode/episode-list/episode-list.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -17,8 +19,18 @@ export const APP_ROUTES: Routes = [
         //canActivate: [AuthGuardService],
       },
       {
-        path: 'characters-list',
+        path: 'character-list',
         component: CharactersListComponent,
+        //canActivate: [AuthGuardService],
+      },
+      {
+        path: 'location-list',
+        component: LocationListComponent,
+        //canActivate: [AuthGuardService],
+      },
+      {
+        path: 'episode-list',
+        component: EpisodeListComponent,
         //canActivate: [AuthGuardService],
       }
     ],

@@ -1,17 +1,18 @@
-<div id="app-loader">
-  <div class="loader-content"></div>
-</div>
 <!------------>
 <nav>
-
   <div class="left-corner">
     <a class="hamburger-btn" (click)="toggleSideBar()" title="Toggle menu" [ngClass]="{'x-mode':isSideBarOpen}"></a>
   </div>
   <div class="middle-area">
     <a [routerLink]="'/home'">Home</a>
-    <a [routerLink]="'/characters-list'">Characters List</a>
+    <a [routerLink]="'/character-list'">Characters</a>
+    <a [routerLink]="'/location-list'">Locations</a>
+    <a [routerLink]="'/episode-list'">Episodes</a>
   </div>
   <div class="right-corner">
+    <div id="app-loader" style="display: none;">
+  <div class="loader-content"></div>
+</div>
     <a class="rick-logo" href="https://rickandmortyapi.com/" target="_blanck" title="Rick And Morty website">
       <svg width="40" height="40" viewBox="0 0 50 50" fill="none">
         <path
@@ -24,7 +25,9 @@
   <aside id="sidebar" [ngClass]="{'is-sidebar-open':isSideBarOpen}">
     <section id="widget_1"><a [routerLink]="'/home'">Home</a></section>
     <!--<section id="widget_2"><a>Description</a></section>-->
-    <section id="widget_2"><a [routerLink]="'/characters-list'">Characters List</a></section>
+    <section id="widget_2"><a [routerLink]="'/character-list'">Characters List</a></section>
+    <section id="widget_3"><a [routerLink]="'/location-list'">Locations List</a></section>
+    <section id="widget_4"><a [routerLink]="'/episode-list'">Episodes List</a></section>
   </aside>
 
 </nav>

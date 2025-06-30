@@ -1,11 +1,11 @@
-<section class="characters-list-section">
-  <div class="characters-list-container">
-    
-      <article *ngFor="let character of charactersList">
-        <div class="character-image">
-          <img [src]="character.image" />
-        </div>
-        <div class="character-info">
+<section class="character-list-section">
+  <div class="character-list-container">
+    <article *ngFor="let character of charactersList">
+      <div class="character-image">
+        <img [src]="character.image" (load)="onCharacterImageLoad($event)"/>
+      </div>
+      <div class="character-info">
+        <div class="character-info-title">
           <h1>{{ character.name }}</h1>
           <p
             [ngClass]="{
@@ -16,16 +16,23 @@
             {{ character.status | titlecase }} -
             {{ character.species | titlecase }}
           </p>
-
-          <h4>Last known location:</h4>
-          <p>{{ character.location.name }}</p>
-
-          <h4>First seen in:</h4>
-          <p>{{ character.firstEpisodeName }}</p>
         </div>
-      </article>
+
+        <div class="character-info-detail">
+          <div>
+            <h4 style="font-weight: normal">Last known location:</h4>
+          <p style="font-weight: bold">{{ character.location.name }}</p>
+          </div>
+
+          <div>
+            <h4>First seen in:</h4>
+          <p>{{ character.firstEpisodeName }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
   </div>
-  <div class="characters-list-pages-container">
+  <div class="character-list-pages-container">
     <div class="left-page-btns">
       <a class="first-page" title="First page" (click)="onFirstPage()"
         ><span>&#8676;</span></a

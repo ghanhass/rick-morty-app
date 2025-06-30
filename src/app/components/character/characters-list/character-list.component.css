@@ -1,4 +1,4 @@
-section.characters-list-section {
+section.character-list-section {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -7,7 +7,7 @@ section.characters-list-section {
   height: calc(100% - 10px);
 }
 
-.characters-list-pages-container {
+.character-list-pages-container {
   display: flex;
   justify-content: center;
   gap: 4px;
@@ -29,7 +29,7 @@ a.last-page {
   margin-left: 10px;
 }
 
-.characters-list-pages-container a {
+.character-list-pages-container a {
   padding: 10px;
   box-shadow: 0px 0px 3px 1px gray;
   border-radius: 5px;
@@ -56,7 +56,7 @@ a.page-number.current-page {
   background-color: rgba(128, 128, 128, 0.37);
 }
 
-.characters-list-container {
+.character-list-container {
   display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 30px;
@@ -71,7 +71,7 @@ a.page-number.current-page {
     min-width: 90%;
 }
 
-.characters-list-container article {
+.character-list-container article {
   display: flex;
   height: 180px;
   width: 100%;
@@ -111,7 +111,23 @@ a.page-number.current-page {
 .character-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 10px;
+}
+
+.character-info-detail {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap:5px;
+}
+
+.character-info h4{
+  font-weight: normal;
+}
+
+.character-info p{
+  font-weight: bold;
 }
 
 .left-page-btns {
@@ -127,24 +143,28 @@ a.page-number.current-page {
 }
 
 @media (max-width: 991px) {
-  .characters-list-container[class] {
+  .character-list-container[class] {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 767px) {
-  .characters-list-container article{
+  .character-list-container article{
     height: min-content !important;
     flex-direction: column;
   }
 
-  .characters-list-container{
+  .character-list-container{
     grid-template-columns: 1fr !important;
   }
 
   .character-image img {
     height: auto;
     width:100%;
+  }
+
+  .character-info {
+    padding: 0px 0px 5px 5px;
   }
 }
 
@@ -163,31 +183,31 @@ a.page-number.current-page {
     order: 3;
   }
 
-  .characters-list-pages-container {
+  .character-list-pages-container {
     flex-wrap: wrap;
   }
 }
 
 @media (min-width:1000px){
-  .characters-list-container{
+  .character-list-container{
     min-width: 95%;
   }
 }
 
 @media (min-width:1200px){
-  .characters-list-container{
+  .character-list-container{
     min-width: 85%;
   }
 }
 
 @media (min-width:1400px){
-  .characters-list-container{
+  .character-list-container{
     min-width: 75%;
   }
 }
 
 @media (min-width:1600px){
-  .characters-list-container{
+  .character-list-container{
     min-width: 65%;
   }
 }

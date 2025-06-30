@@ -5,28 +5,30 @@ import {
   inject,
   OnInit,
 } from "@angular/core";
-import { CharacterService } from "../services/character.service";
-import { Character } from "../interfaces/character/character";
-import { ResponseError } from "../interfaces/response-error";
-import { CharacterApiResponse } from "../interfaces/character-api-response";
+import { CharacterService } from "../../../services/character.service";
+import { Character } from "../../../interfaces/character/character";
+import { ResponseError } from "../../../interfaces/response-error";
+import { CharacterApiResponse } from "../../../interfaces/character-api-response";
 import { CommonModule } from "@angular/common";
-import { LocationService } from "../services/location.service";
-import { Location } from "../interfaces/location/location";
-import { EpisodeService } from "../services/episode.service";
-import { Episode } from "../interfaces/episode/episode";
+import { LocationService } from "../../../services/location.service";
+import { Location } from "../../../interfaces/location/location";
+import { EpisodeService } from "../../../services/episode.service";
+import { Episode } from "../../../interfaces/episode/episode";
+import { LoaderService } from "../../../services/loader.service";
 
 @Component({
-  selector: "app-characters-list",
+  selector: "app-character-list",
   standalone: true,
   imports: [CommonModule],
-  templateUrl: "./characters-list.component.html",
-  styleUrl: "./characters-list.component.css",
+  templateUrl: "./character-list.component.html",
+  styleUrl: "./character-list.component.css",
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CharactersListComponent implements OnInit {
   private characterService = inject(CharacterService);
   private locationService = inject(LocationService);
   private episodeService = inject(EpisodeService);
+  private loaderService = inject(LoaderService);
   ////
   public totalPages: number = 0;
 
@@ -37,6 +39,7 @@ export class CharactersListComponent implements OnInit {
   public currentPage: number = 1;
 
   public charactersList: Array<Character> = [];
+  private loadedCharacterImagesCount: number = 0;
 
   constructor(private cdr: ChangeDetectorRef) {}
   
@@ -45,6 +48,7 @@ export class CharactersListComponent implements OnInit {
   }
 
   getAllCharactersChunkEpisodes(){
+    this.loaderService.showLoader();
     let idsArr = this.charactersList.map((charac: Character)=>{
       return charac.episode; 
     }).flat(1).map((episodeUrl: string)=>{
@@ -63,7 +67,8 @@ export class CharactersListComponent implements OnInit {
           let obj = character;
           let firstEpUrl: string = character.episode[0];
 
-          obj.firstEpisodeName = episodesList.find((episode: Episode)=>{
+          //using [episodesList].flat() to force  getting a array of a single object if the api returns a single episode, rather than an array of episodes
+          obj.firstEpisodeName = ([episodesList].flat()).find((episode: Episode)=>{
             return episode.url == firstEpUrl
           })?.name || "";
 
@@ -171,5 +176,15 @@ export class CharactersListComponent implements OnInit {
 
   getOneCharacter(id: number): void {
     
+  }
+
+  onCharacterImageLoad($event: any){
+    console.log("onCharacterImageLoad ev = ",$event);
+    this.loadedCharacterImagesCount++;
+
+    if(this.loadedCharacterImagesCount == this.charactersList.length){
+      this.loadedCharacterImagesCount = 0;
+      this.loaderService.hideLoader();
+    }
   }
 }
