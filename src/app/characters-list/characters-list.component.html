@@ -1,8 +1,58 @@
 <section class="characters-list-section">
-    <div class="characters-list-container">
+  <div class="characters-list-container">
+    <div class="characters-list-wrapper">
+      <article *ngFor="let character of charactersList">
+        <div class="character-image">
+          <img [src]="character.image" />
+        </div>
+        <div class="character-info">
+          <h1>{{ character.name }}</h1>
+          <p
+            [ngClass]="{
+              alive: character.status == 'Alive',
+              dead: character.status == 'Dead'
+            }"
+          >
+            {{ character.status | titlecase }} -
+            {{ character.species | titlecase }}
+          </p>
 
+          <h4>Last known location:</h4>
+          <p>{{ character.location.name }}</p>
+
+          <h4>First seen in:</h4>
+          <p>{{ character.episode[0] || "" }}</p>
+        </div>
+      </article>
     </div>
-    <div class="characters-list-paginator">
-        <div class=""></div>
+  </div>
+  <div class="characters-list-pages-container">
+    <div class="left-page-btns">
+      <a class="first-page" title="First page" (click)="onFirstPage()"
+        ><span>&#8676;</span></a
+      >
+      <a class="prev-page" title="Previous page" (click)="onPrevPage()"
+        ><span>&#8612;</span></a
+      >
     </div>
+
+    <div class="middle-page-btns">
+      <a
+        *ngFor="let item of getCurrentPagesChunck()"
+        [ngClass]="{ 'current-page': currentPage == item }"
+        class="page-number"
+        [title]="'Go to page ' + item"
+        (click)="goToPage(item)"
+        >{{ item }}</a
+      >
+    </div>
+    <div class="right-page-btns">
+      <a class="next-page" title="Next page" (click)="onNextPage()"
+        ><span>&#8614;</span></a
+      >
+      <a class="last-page" title="Last page" (click)="onLastPage()"
+        ><span>&#8677;</span></a
+      >
+    </div>
+  </div>
 </section>

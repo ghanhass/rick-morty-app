@@ -2,12 +2,6 @@
     fill: #4d4d4d;
 }
 
-a {
-    cursor: pointer;
-    color: rgb(51, 51, 51);
-    text-decoration: none;
-}
-
 .rick-logo {
     display: flex;
 }

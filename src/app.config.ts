@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   APP_INITIALIZER,
   ApplicationConfig,
@@ -9,13 +9,17 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterModule } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
+import { httpProgressInterceptor } from './app/services/http-progress.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimationsAsync(),
     importProvidersFrom(
       RouterModule.forRoot(APP_ROUTES, { bindToComponentInputs: true })
     ),
-    provideHttpClient(/*for interceptor: /*withInterceptors([authInterceptor])*/),
+    provideHttpClient(withInterceptors([httpProgressInterceptor])),
     provideExperimentalZonelessChangeDetection(),
+    /*{
+      provide: HTTP_INTERCEPTORS, useClass: HttpProgressInterceptor, multi: true
+    }*/
   ],
 };

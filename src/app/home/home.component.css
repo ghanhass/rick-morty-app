@@ -46,7 +46,6 @@ p {
 }
 
 p a, li a {
-    color: rgb(51, 51, 51);
     border-bottom: 2px solid rgb(255, 152, 0);
     transition: 0.1s;
 }

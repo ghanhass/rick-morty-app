@@ -11,6 +11,10 @@ import { RouterModule, RouterOutlet } from "@angular/router";
 })
 export class AppComponent {
 
+  constructor(){
+
+  }
+  
   isSideBarOpen: boolean = false;
   toggleSideBar(): void{
     this.isSideBarOpen = !this.isSideBarOpen;

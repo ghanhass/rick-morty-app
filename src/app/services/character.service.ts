@@ -15,7 +15,7 @@ export class CharacterService {
   constructor() { }
 
   getAll(page: number):Observable<CharacterApiResponse>{
-    return this.httpClient.get<CharacterApiResponse>(this.url+"?page="+page);
+    return this.httpClient.get<CharacterApiResponse>(this.url+"?page="+page,{reportProgress: true});
   }
 
   getOne():Observable<Character>{
