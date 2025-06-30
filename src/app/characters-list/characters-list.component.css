@@ -3,6 +3,8 @@ section.characters-list-section {
   flex-direction: column;
   gap: 10px;
   margin-top: 10px;
+
+  height: calc(100% - 10px);
 }
 
 .characters-list-pages-container {
@@ -55,16 +57,23 @@ a.page-number.current-page {
 }
 
 .characters-list-container {
-  height: 638px;
-  overflow: hidden;
-  box-shadow: 0px 0px 3px 0px gray;
-  padding: 5px 0px 10px 5px;
-  margin: auto;
+  display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    overflow: auto;
+    padding: 5px 5px 5px 5px;
+    height: 100%;
+    max-width: 100%;
+
+    box-shadow: 0px 0px 3px 0px gray;
+    margin: auto;
+
+    min-width: 90%;
 }
 
 .characters-list-container article {
   display: flex;
-  height: 160px;
+  height: 180px;
   width: 100%;
   border-radius: 10px;
   overflow: hidden;
@@ -105,15 +114,6 @@ a.page-number.current-page {
   justify-content: space-between;
 }
 
-.characters-list-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 30px;
-  overflow: auto;
-  height: calc(100% - 5px);
-  padding: 5px 5px 5px 5px;
-}
-
 .left-page-btns {
   display: flex;
 }
@@ -127,8 +127,24 @@ a.page-number.current-page {
 }
 
 @media (max-width: 991px) {
-  .characters-list-wrapper[class] {
+  .characters-list-container[class] {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .characters-list-container article{
+    height: min-content !important;
+    flex-direction: column;
+  }
+
+  .characters-list-container{
+    grid-template-columns: 1fr !important;
+  }
+
+  .character-image img {
+    height: auto;
+    width:100%;
   }
 }
 
@@ -149,5 +165,29 @@ a.page-number.current-page {
 
   .characters-list-pages-container {
     flex-wrap: wrap;
+  }
+}
+
+@media (min-width:1000px){
+  .characters-list-container{
+    min-width: 95%;
+  }
+}
+
+@media (min-width:1200px){
+  .characters-list-container{
+    min-width: 85%;
+  }
+}
+
+@media (min-width:1400px){
+  .characters-list-container{
+    min-width: 75%;
+  }
+}
+
+@media (min-width:1600px){
+  .characters-list-container{
+    min-width: 65%;
   }
 }

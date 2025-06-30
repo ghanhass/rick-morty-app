@@ -22,4 +22,8 @@ export class CharacterService {
     return this.httpClient.get<Character>(this.url);
   }
 
+  getMultiple(idsArr: Array<number>):Observable<Array<Character>>{
+      let paramsStr = idsArr.map(el => el+"").join(",");
+      return this.httpClient.get<Array<Character>>(this.url+"/"+paramsStr);
+    }
 }

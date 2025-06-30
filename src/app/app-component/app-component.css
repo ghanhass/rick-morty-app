@@ -6,6 +6,15 @@
     display: flex;
 }
 
+main{
+    height:100%;
+}
+
+app-characters-list{
+    height:100%;
+    display:block;
+}
+
 nav{
     display:flex;
     align-items: center;

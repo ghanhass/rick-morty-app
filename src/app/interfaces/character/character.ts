@@ -10,7 +10,8 @@ export interface Character {
     image: string;
     episode: Array<string>;
     url: string;
-    created: string
+    created: string;
+    firstEpisodeName?: string;
 }
 
 interface CharacterLocation {

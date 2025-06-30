@@ -1,6 +1,6 @@
 <section class="characters-list-section">
   <div class="characters-list-container">
-    <div class="characters-list-wrapper">
+    
       <article *ngFor="let character of charactersList">
         <div class="character-image">
           <img [src]="character.image" />
@@ -21,10 +21,9 @@
           <p>{{ character.location.name }}</p>
 
           <h4>First seen in:</h4>
-          <p>{{ character.episode[0] || "" }}</p>
+          <p>{{ character.firstEpisodeName }}</p>
         </div>
       </article>
-    </div>
   </div>
   <div class="characters-list-pages-container">
     <div class="left-page-btns">

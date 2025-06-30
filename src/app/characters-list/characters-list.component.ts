@@ -10,6 +10,10 @@ import { Character } from "../interfaces/character/character";
 import { ResponseError } from "../interfaces/response-error";
 import { CharacterApiResponse } from "../interfaces/character-api-response";
 import { CommonModule } from "@angular/common";
+import { LocationService } from "../services/location.service";
+import { Location } from "../interfaces/location/location";
+import { EpisodeService } from "../services/episode.service";
+import { Episode } from "../interfaces/episode/episode";
 
 @Component({
   selector: "app-characters-list",
@@ -21,6 +25,8 @@ import { CommonModule } from "@angular/common";
 })
 export class CharactersListComponent implements OnInit {
   private characterService = inject(CharacterService);
+  private locationService = inject(LocationService);
+  private episodeService = inject(EpisodeService);
   ////
   public totalPages: number = 0;
 
@@ -33,17 +39,49 @@ export class CharactersListComponent implements OnInit {
   public charactersList: Array<Character> = [];
 
   constructor(private cdr: ChangeDetectorRef) {}
+  
   ngOnInit(): void {
-    this.getAllCharacters();
+    this.getAllChunkCharacters();
   }
 
-  getAllCharacters(): void {
+  getAllCharactersChunkEpisodes(){
+    let idsArr = this.charactersList.map((charac: Character)=>{
+      return charac.episode; 
+    }).flat(1).map((episodeUrl: string)=>{
+      let arr = episodeUrl.split("/");
+      let episodeId = arr[arr.length - 1];
+
+      return episodeId;
+    });
+
+    idsArr = Array.from(new Set(idsArr));
+
+    console.log("idsArr = ", idsArr);
+    this.episodeService.getMultiple(idsArr).subscribe({
+      next: (episodesList: Array<Episode>)=>{
+        this.charactersList = this.charactersList.map((character: Character)=>{
+          let obj = character;
+          let firstEpUrl: string = character.episode[0];
+
+          obj.firstEpisodeName = episodesList.find((episode: Episode)=>{
+            return episode.url == firstEpUrl
+          })?.name || "";
+
+          return obj;
+        });
+        this.cdr.detectChanges();
+      }
+    })
+  }
+  getAllChunkCharacters(): void {
     this.characterService.getAll(this.currentPage).subscribe({
       next: (res: CharacterApiResponse) => {
         this.generatePages(res);
 
         this.charactersList = res.results;
-        this.cdr.detectChanges();
+
+        this.getAllCharactersChunkEpisodes();
+
         //console.log("charactersList = ", this.charactersList);
 
         //end preparing pages numbers
@@ -90,7 +128,7 @@ export class CharactersListComponent implements OnInit {
       this.currentPage = nextPage;
     }
 
-    this.getAllCharacters();
+    this.getAllChunkCharacters();
   }
 
   onPrevPage(): void {
@@ -104,14 +142,14 @@ export class CharactersListComponent implements OnInit {
       this.currentPage = nextPage;
     }
 
-    this.getAllCharacters();
+    this.getAllChunkCharacters();
   }
 
   onFirstPage(): void {
     this.currentChunckIndex = 0;
     this.currentPage = 1;
 
-    this.getAllCharacters();
+    this.getAllChunkCharacters();
   }
 
   onLastPage(): void {
@@ -121,13 +159,13 @@ export class CharactersListComponent implements OnInit {
     this.pagesArray[this.currentChunckIndex];
     this.currentPage = lastPagesChunck[lastPagesChunck.length - 1];
 
-    this.getAllCharacters();
+    this.getAllChunkCharacters();
   }
 
   goToPage(page: number) {
     if(this.currentPage != page){
       this.currentPage = page;
-      this.getAllCharacters();
+      this.getAllChunkCharacters();
     }
   }
 
