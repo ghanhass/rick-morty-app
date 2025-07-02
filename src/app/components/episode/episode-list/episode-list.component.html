@@ -26,7 +26,7 @@
       </div>
     </article>
   </div>
-  <div class="episode-list-pages-container">
+  <div class="episode-list-pages-container" *ngIf="!characterEpisodes()">
     <div class="left-page-btns">
       <a class="first-page" title="First page" (click)="onFirstPage()"
         ><span>&#8676;</span></a
