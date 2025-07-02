@@ -1,11 +1,3 @@
-.last-location:hover,
-.first-episode:hover{
-      box-shadow: 0px 0px 9px 0px gray;
-    border-radius: 5px;
-    width:fit-content;
-    cursor:pointer
-}
-
 article {
     display: flex;
     flex-direction: column;

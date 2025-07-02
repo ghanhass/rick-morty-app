@@ -12,9 +12,9 @@
 
           <p>Type: <strong>{{ currentCharacter.type | titlecase }}</strong></p>
 
-          <p title="Go to location" class="last-location">Last known location: <strong>{{ currentCharacter.location.name | titlecase }}</strong></p>
+          <p class="last-location">Last known location: <strong>{{ currentCharacter.location.name | titlecase }}</strong></p>
 
-          <p title="Go to episode" class="first-episode">First seen in: <strong>{{ currentCharacter.firstEpisodeName | titlecase }}</strong></p>
+          <p class="first-episode">First seen in: <strong>{{ currentCharacter.firstEpisodeName | titlecase }}</strong></p>
 
           <p>Created in: <strong>{{ currentCharacter.created | date:'yyyy-mm-dd' }}</strong></p>
       </div>
