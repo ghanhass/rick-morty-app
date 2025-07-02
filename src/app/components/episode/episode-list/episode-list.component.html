@@ -1,1 +1,55 @@
-<p>episode-list works!</p>
+<section class="episode-list-section">
+    <h2 style="margin:0px 0px 5px 0px;text-align: center;">Episodes list</h2>
+  <div class="episode-list-container">
+    <article *ngFor="let episode of episodeList">
+      <div class="episode-info" (click)="goToEpisode(episode)">
+        <div class="episode-info-title">
+          <h1 style="text-align: center">{{ episode.name }}</h1>
+        </div>
+
+        <div class="episode-info-detail">
+          <div class="last-episode" title="Go to episode">
+            <h4 style="font-weight: normal">Air date:</h4>
+            <p style="font-weight: bold">{{ episode.air_date | date:'medium' }}</p>
+          </div>
+
+          <div class="first-episode" title="Go to episode">
+            <h4 style="font-weight: normal">Episode number</h4>
+            <p>{{ episode.episode }}</p>
+          </div>
+
+          <div class="characters-nbr">
+            <h4 style="font-weight: normal">Number of characters</h4>
+            <p>{{ episode.characters.length }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="episode-list-pages-container">
+    <div class="left-page-btns">
+      <a class="first-page" title="First page" (click)="onFirstPage()"
+        ><span>&#8676;</span></a
+      >
+      <a class="prev-page" title="Previous page" (click)="onPrevPage()"
+        ><span>&#8612;</span></a
+      >
+    </div>
+
+    <div class="middle-page-btns">
+      <a *ngFor="let item of getCurrentPagesChunck()" [ngClass]="{ 'current-page': currentPage == item }" class="page-number"
+        [title]="'Go to page ' + item"
+        (click)="goToPage(item)"
+        >{{ item }}</a
+      >
+    </div>
+    <div class="right-page-btns">
+      <a class="next-page" title="Next page" (click)="onNextPage()"
+        ><span>&#8614;</span></a
+      >
+      <a class="last-page" title="Last page" (click)="onLastPage()"
+        ><span>&#8677;</span></a
+      >
+    </div>
+  </div>
+</section>

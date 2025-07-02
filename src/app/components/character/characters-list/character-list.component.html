@@ -1,8 +1,9 @@
 <section class="character-list-section">
+  <h2 style="margin:0px 0px 5px 0px;text-align: center;">Characters list</h2>
   <div class="character-list-container">
-    <article *ngFor="let character of charactersList">
-      <div class="character-image">
-        <img [src]="character.image" (load)="onCharacterImageLoad($event)"/>
+    <article *ngFor="let character of characterList">
+      <div class="character-image" title="Go to character" (click)="goToCharacter(character)">
+        <img [src]="character.image" (load)="onCharacterImageLoad($event)" (error)="onCharacterImageLoad($event)"/>
       </div>
       <div class="character-info">
         <div class="character-info-title">
@@ -19,12 +20,12 @@
         </div>
 
         <div class="character-info-detail">
-          <div>
+          <div class='last-location'>
             <h4 style="font-weight: normal">Last known location:</h4>
           <p style="font-weight: bold">{{ character.location.name }}</p>
           </div>
 
-          <div>
+          <div class='first-episode'>
             <h4>First seen in:</h4>
           <p>{{ character.firstEpisodeName }}</p>
           </div>
@@ -32,7 +33,7 @@
       </div>
     </article>
   </div>
-  <div class="character-list-pages-container">
+  <div *ngIf="!locationResidentIds() && !episodeCharacterIds()" class="character-list-pages-container">
     <div class="left-page-btns">
       <a class="first-page" title="First page" (click)="onFirstPage()"
         ><span>&#8676;</span></a

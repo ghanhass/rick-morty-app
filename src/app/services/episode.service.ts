@@ -18,12 +18,12 @@ export class EpisodeService {
     return this.httpClient.get<EpisodeApiResponse>(this.url+"?page="+page,{reportProgress: true});
   }
 
-  getOne():Observable<Episode>{
-    return this.httpClient.get<Episode>(this.url);
-  }
+  getOne(episodeId: number | string): Observable<Episode> {
+        return this.httpClient.get<Episode>(this.url + "/" + episodeId);
+      }
 
-  getMultiple(idsArr: Array<number|string>):Observable<Array<Episode>>{
-    let paramsStr = idsArr.map(el => el+"").join(",");
+  getMultiple(episodeIdsArr: Array<number|string>):Observable<Array<Episode>>{
+    let paramsStr = episodeIdsArr.map(el => el+"").join(",");
     return this.httpClient.get<Array<Episode>>(this.url+"/"+paramsStr);
   }
 

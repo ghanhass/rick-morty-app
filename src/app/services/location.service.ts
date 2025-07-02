@@ -18,12 +18,12 @@ export class LocationService {
     return this.httpClient.get<LocationApiResponse>(this.url+"?page="+page,{reportProgress: true});
   }
 
-  getOne():Observable<Location>{
-    return this.httpClient.get<Location>(this.url);
-  }
+  getOne(locationId: number | string): Observable<Location> {
+      return this.httpClient.get<Location>(this.url + "/" + locationId)
+    }
 
-  getMultiple(idsArr: Array<number>):Observable<Array<Location>>{
-    let paramsStr = idsArr.map(el => el+"").join(",");
+  getMultiple(locationIdsArr: Array<number>):Observable<Array<Location>>{
+    let paramsStr = locationIdsArr.map(el => el+"").join(",");
     return this.httpClient.get<Array<Location>>(this.url+"/"+paramsStr);
   }
 

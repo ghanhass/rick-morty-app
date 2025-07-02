@@ -1,1 +1,14 @@
-<p>episode-detail works!</p>
+<div class="episode-container">
+    <h2 style="margin:0px 0px 5px 0px;text-align: center;">Episode</h2>
+    <article *ngIf="currentEpisode">
+      <div class="episode-info">
+          <h1>{{ currentEpisode.name }}</h1>
+          <p>Air date: <strong>{{ currentEpisode.air_date | date:'medium' }}</strong></p>
+          <p>Episode number: <strong>{{ currentEpisode.episode | titlecase }}</strong></p>
+
+          <p>Number of characters: <strong>{{ currentEpisode.characters.length }}</strong></p>
+      </div>
+    </article>
+  </div>
+
+  <app-character-list *ngIf="episodeCharacterIds.length" [episodeCharacterIds]="episodeCharacterIds"></app-character-list>

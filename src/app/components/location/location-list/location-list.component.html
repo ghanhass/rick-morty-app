@@ -1,1 +1,58 @@
-<p>location-list works!</p>
+<section class="location-list-section">
+  <h2 style="margin:0px 0px 5px 0px;text-align: center;">Locations list</h2>
+  <div class="location-list-container">
+    <article *ngFor="let location of locationList">
+      <div class="location-info" (click)="goToLocation(location)">
+        <div class="location-info-title">
+          <h1 style="text-align: center">{{ location.name }}</h1>
+        </div>
+
+        <div class="location-info-detail">
+          <div class="last-location" title="Go to location">
+            <h4 style="font-weight: normal">Type:</h4>
+            <p style="font-weight: bold">{{ location.type }}</p>
+          </div>
+
+          <div class="first-episode" title="Go to episode">
+            <h4 style="font-weight: normal">Dimension</h4>
+            <p>{{ location.dimension }}</p>
+          </div>
+
+          <div class="residents-nbr">
+            <h4 style="font-weight: normal">Number of residents</h4>
+            <p>{{ location.residents.length }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="location-list-pages-container">
+    <div class="left-page-btns">
+      <a class="first-page" title="First page" (click)="onFirstPage()"
+        ><span>&#8676;</span></a
+      >
+      <a class="prev-page" title="Previous page" (click)="onPrevPage()"
+        ><span>&#8612;</span></a
+      >
+    </div>
+
+    <div class="middle-page-btns">
+      <a
+        *ngFor="let item of getCurrentPagesChunck()"
+        [ngClass]="{ 'current-page': currentPage == item }"
+        class="page-number"
+        [title]="'Go to page ' + item"
+        (click)="goToPage(item)"
+        >{{ item }}</a
+      >
+    </div>
+    <div class="right-page-btns">
+      <a class="next-page" title="Next page" (click)="onNextPage()"
+        ><span>&#8614;</span></a
+      >
+      <a class="last-page" title="Last page" (click)="onLastPage()"
+        ><span>&#8677;</span></a
+      >
+    </div>
+  </div>
+</section>

@@ -16,10 +16,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       RouterModule.forRoot(APP_ROUTES, { bindToComponentInputs: true })
     ),
-    provideHttpClient(withInterceptors([httpProgressInterceptor])),
-    provideExperimentalZonelessChangeDetection(),
-    /*{
-      provide: HTTP_INTERCEPTORS, useClass: HttpProgressInterceptor, multi: true
-    }*/
+    provideHttpClient(withInterceptors([httpProgressInterceptor]))
   ],
 };

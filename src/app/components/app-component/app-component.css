@@ -47,7 +47,7 @@ nav .right-corner {
 nav a.hamburger-btn,
 nav a.hamburger-btn::before,
 nav a.hamburger-btn::after {
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 nav a.hamburger-btn {
@@ -93,7 +93,7 @@ aside#sidebar {
   padding: 15px 5px;
   /*********/
   transform: translateX(calc(-100% - 4px));
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 aside#sidebar section:first-child ~ section {

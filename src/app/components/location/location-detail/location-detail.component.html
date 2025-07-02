@@ -1,1 +1,14 @@
-<p>location-detail works!</p>
+<div class="location-container">
+  <h2 style="margin:0px 0px 5px 0px;text-align: center;">Location</h2>
+    <article *ngIf="currentLocation">
+      <div class="location-info">
+          <h1>{{ currentLocation.name }}</h1>
+          <p>Type: <strong>{{ currentLocation.type | titlecase }}</strong></p>
+          <p>Dimension: <strong>{{ currentLocation.dimension | titlecase }}</strong></p>
+
+          <p>Created in: <strong>{{ currentLocation.created | date:'yyyy-mm-dd' }}</strong></p>
+      </div>
+    </article>
+  </div>
+
+  <app-character-list *ngIf="locationResidentIds.length" [locationResidentIds]="locationResidentIds"></app-character-list>

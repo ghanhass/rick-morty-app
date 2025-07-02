@@ -1,7 +1,7 @@
 import { ApiInfo } from "./api-info";
-import { Character } from "./character/character";
+import { Location } from "./location/location";
 
 export interface LocationApiResponse {
     info: ApiInfo;
-    results: Array<Character>;
+    results: Array<Location>;
 }

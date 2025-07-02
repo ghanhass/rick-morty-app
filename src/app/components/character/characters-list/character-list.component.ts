@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  input,
   OnInit,
 } from "@angular/core";
 import { CharacterService } from "../../../services/character.service";
@@ -15,6 +16,8 @@ import { Location } from "../../../interfaces/location/location";
 import { EpisodeService } from "../../../services/episode.service";
 import { Episode } from "../../../interfaces/episode/episode";
 import { LoaderService } from "../../../services/loader.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { map } from "rxjs";
 
 @Component({
   selector: "app-character-list",
@@ -24,11 +27,13 @@ import { LoaderService } from "../../../services/loader.service";
   styleUrl: "./character-list.component.css",
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class CharactersListComponent implements OnInit {
+export class CharacterListComponent implements OnInit {
   private characterService = inject(CharacterService);
   private locationService = inject(LocationService);
   private episodeService = inject(EpisodeService);
   private loaderService = inject(LoaderService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   ////
   public totalPages: number = 0;
 
@@ -38,18 +43,27 @@ export class CharactersListComponent implements OnInit {
   public currentChunckIndex: number = 0;
   public currentPage: number = 1;
 
-  public charactersList: Array<Character> = [];
+  public characterList: Array<Character> = [];
   private loadedCharacterImagesCount: number = 0;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+
+  locationResidentIds = input<Array<string>>();
+  episodeCharacterIds = input<Array<string>>();
+
+  constructor(private cdr: ChangeDetectorRef) {
+    
+  }
   
   ngOnInit(): void {
-    this.getAllChunkCharacters();
+    console.log("ngoninit")
+    let routerPage = +this.activatedRoute.snapshot.queryParamMap.get("page")! || 1;
+          //console.log("routerPage = ", routerPage);
+          this.goToPage(routerPage);        
   }
 
-  getAllCharactersChunkEpisodes(){
+  getAllCharactersChunkEpisodes(): void{
     this.loaderService.showLoader();
-    let idsArr = this.charactersList.map((charac: Character)=>{
+    let episodeIdsArr = this.characterList.map((charac: Character)=>{
       return charac.episode; 
     }).flat(1).map((episodeUrl: string)=>{
       let arr = episodeUrl.split("/");
@@ -58,12 +72,12 @@ export class CharactersListComponent implements OnInit {
       return episodeId;
     });
 
-    idsArr = Array.from(new Set(idsArr));
+    episodeIdsArr = Array.from(new Set(episodeIdsArr));
 
-    console.log("idsArr = ", idsArr);
-    this.episodeService.getMultiple(idsArr).subscribe({
+    //console.log("episodeIdsArr = ", episodeIdsArr);
+    this.episodeService.getMultiple(episodeIdsArr).subscribe({
       next: (episodesList: Array<Episode>)=>{
-        this.charactersList = this.charactersList.map((character: Character)=>{
+        this.characterList = this.characterList.map((character: Character)=>{
           let obj = character;
           let firstEpUrl: string = character.episode[0];
 
@@ -79,15 +93,43 @@ export class CharactersListComponent implements OnInit {
     })
   }
   getAllChunkCharacters(): void {
-    this.characterService.getAll(this.currentPage).subscribe({
-      next: (res: CharacterApiResponse) => {
-        this.generatePages(res);
+    let obs: any;
+    if(this.locationResidentIds()){
+      console.log("AAA");
+      obs = this.characterService.getMultiple(this.locationResidentIds()!).pipe(map((res)=>{
+        return {
+          results: [res].flat(),
+        }
+      }));
+    }
+    else if(this.episodeCharacterIds()){
+      obs = this.characterService.getMultiple(this.episodeCharacterIds()!).pipe(map((res)=>{
+        return {
+          results: [res].flat(),
+        }
+      }));
+    }
+    else{
+      console.log("BBB");
+      obs = this.characterService.getAll(this.currentPage);
+    }
 
-        this.charactersList = res.results;
+
+    obs.subscribe({
+      next: (res: any) => {
+        console.log("res = ",res);
+        console.log("this.locationResidentIds = ",this.locationResidentIds());
+        if(!this.locationResidentIds() && !this.episodeCharacterIds()){
+          this.generatePages(res);
+        }
+
+          this.characterList = res.results;
+
+    
 
         this.getAllCharactersChunkEpisodes();
 
-        //console.log("charactersList = ", this.charactersList);
+        //console.log("characterList = ", this.characterList);
 
         //end preparing pages numbers
       },
@@ -109,6 +151,10 @@ export class CharactersListComponent implements OnInit {
         arr = [];
       }
     }
+
+    this.currentChunckIndex = this.pagesArray.findIndex((pagesChunkArr)=>{
+      return pagesChunkArr.includes(this.currentPage);
+    }) || 0
     //console.log("this.pagesArray = ", this.pagesArray);
   }
 
@@ -130,10 +176,8 @@ export class CharactersListComponent implements OnInit {
         this.currentChunckIndex++;
       }
 
-      this.currentPage = nextPage;
+      this.goToPage(nextPage);
     }
-
-    this.getAllChunkCharacters();
   }
 
   onPrevPage(): void {
@@ -144,45 +188,49 @@ export class CharactersListComponent implements OnInit {
         this.currentChunckIndex--;
       }
 
-      this.currentPage = nextPage;
+      this.goToPage(nextPage);
     }
-
-    this.getAllChunkCharacters();
   }
 
   onFirstPage(): void {
-    this.currentChunckIndex = 0;
-    this.currentPage = 1;
-
-    this.getAllChunkCharacters();
-  }
+      if(this.currentPage > 1){
+        this.currentChunckIndex = 0;
+      this.goToPage(1);
+      }
+    }
 
   onLastPage(): void {
     this.currentChunckIndex = this.pagesArray.length - 1;
 
     let lastPagesChunck: Array<number> =
     this.pagesArray[this.currentChunckIndex];
-    this.currentPage = lastPagesChunck[lastPagesChunck.length - 1];
+    let lastPage = lastPagesChunck[lastPagesChunck.length - 1];
 
-    this.getAllChunkCharacters();
+    this.goToPage(lastPage);
   }
 
-  goToPage(page: number) {
-    if(this.currentPage != page){
+  goToPage(page: number):void {
+    //if(this.currentPage != page){
+    if(!this.locationResidentIds() && !this.episodeCharacterIds()){
+      this.router.navigateByUrl("character/list?page="+page);
+    }
+
       this.currentPage = page;
       this.getAllChunkCharacters();
-    }
+    //}
   }
 
-  getOneCharacter(id: number): void {
-    
+  goToCharacter(character: Character):void{
+    this.router.navigate(["character/"+character.id],{
+      state: {character: character}
+    });
   }
 
-  onCharacterImageLoad($event: any){
-    console.log("onCharacterImageLoad ev = ",$event);
+  onCharacterImageLoad($event: any): void{
+    //console.log("onCharacterImageLoad ev = ",$event);
     this.loadedCharacterImagesCount++;
 
-    if(this.loadedCharacterImagesCount == this.charactersList.length){
+    if(this.loadedCharacterImagesCount == this.characterList.length){
       this.loadedCharacterImagesCount = 0;
       this.loaderService.hideLoader();
     }

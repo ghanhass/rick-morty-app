@@ -9,18 +9,18 @@ export const httpProgressInterceptor: HttpInterceptorFn = (req, next) => {
       return next(req).pipe(
         tap((event: HttpEvent<any>) => {
           loaderService.showLoader();
-          console.log("http event = ", event);
+          //console.log("http event = ", event);
           if(event.type === HttpEventType.DownloadProgress){
-            console.log("loaded = ", event.loaded);
-            console.log("total = ", event.total);
+            //console.log("loaded = ", event.loaded);
+            //console.log("total = ", event.total);
           }
           else if(event.type === HttpEventType.Response){
-            console.log("response event = ");
+            //console.log("response event = ");
             loaderService.hideLoader();
           }
-          console.log("----------------------");
+          //console.log("----------------------");
         }, error => {
-          console.log("error = ", error);
+          console.log("interceptor error = ", error);
           loaderService.hideLoader();
         })
       )

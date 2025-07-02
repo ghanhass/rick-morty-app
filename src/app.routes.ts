@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './app/home/home.component';
-import { CharactersListComponent } from './app/components/character/characters-list/character-list.component';
+import { CharacterListComponent } from './app/components/character/characters-list/character-list.component';
 import { LocationListComponent } from './app/components/location/location-list/location-list.component';
 import { EpisodeListComponent } from './app/components/episode/episode-list/episode-list.component';
+import { CharacterDetailComponent } from './app/components/character/character-detail/character-detail.component';
+import { LocationDetailComponent } from './app/components/location/location-detail/location-detail.component';
+import { EpisodeDetailComponent } from './app/components/episode/episode-detail/episode-detail.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -16,23 +19,47 @@ export const APP_ROUTES: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        //canActivate: [AuthGuardService],
+        
       },
       {
-        path: 'character-list',
-        component: CharactersListComponent,
-        //canActivate: [AuthGuardService],
+        path: 'character',
+        children:[
+          {
+            path: 'list',
+            component: CharacterListComponent,
+          },
+          {
+            path: ':id',
+            component: CharacterDetailComponent,
+          },
+        ]
       },
       {
-        path: 'location-list',
-        component: LocationListComponent,
-        //canActivate: [AuthGuardService],
+        path: 'location',
+        children:[
+          {
+            path: 'list',
+            component: LocationListComponent,
+          },
+          {
+            path: ':id',
+            component: LocationDetailComponent,
+          },
+        ]
       },
       {
-        path: 'episode-list',
-        component: EpisodeListComponent,
-        //canActivate: [AuthGuardService],
-      }
+        path: 'episode',
+        children:[
+          {
+            path: 'list',
+            component: EpisodeListComponent,
+          },
+          {
+            path: ':id',
+            component: EpisodeDetailComponent,
+          },
+        ]
+      },
     ],
   },
   {
